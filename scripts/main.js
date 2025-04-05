@@ -109,7 +109,7 @@ function searchPokemon(pokemonId) {
   const searchInput = document.getElementById(`search${pokemonId}`).value;
 
   if (searchInput.length >= 3) {
-    fetch(`https://pokeapi.crabdance.comsearch/${selectedLanguage}/${searchInput}`)
+    fetch(`https://pokeapi.crabdance.com/search/${selectedLanguage}/${searchInput}`)
       .then((response) => response.json())
       .then((data) => {
         // Affichage des suggestions sous la textbox
