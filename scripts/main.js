@@ -51,7 +51,6 @@ function changeLanguage() {
   localStorage.setItem("selectedLanguage", selectedLanguage);
   updateUITranslations();
 
-  // Recharger les Pokémon actuellement affichés avec la nouvelle langue
   if (cachePokemons["A"]) {
     selectPokemon("A", cachePokemons["A"].id);
   }
