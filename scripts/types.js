@@ -1,4 +1,3 @@
-// Tableau des multiplicateurs de dégâts pour chaque type
 const typeChart = {
   normal: {
     fighting: 2,
@@ -158,20 +157,18 @@ const typeChart = {
   }
 };
 
-// Fonction pour calculer les faiblesses et résistances d'un Pokémon
 function calculateTypeEffectiveness(types) {
   const effectiveness = {
-    x4: [],    // Double faiblesse
-    x2: [],    // Faiblesse simple
-    x05: [],   // Résistance simple
-    x025: [],  // Double résistance
-    x0: []     // Immunité
+    x4: [],
+    x2: [],
+    x05: [],
+    x025: [],
+    x0: []
   };
 
   const multipliers = {};
   const allTypes = Object.keys(typeChart);
 
-  // Calcul des multiplicateurs comme avant
   types.forEach(type => {
     allTypes.forEach(attackType => {
       if (typeChart[type][attackType] !== undefined) {
@@ -180,7 +177,6 @@ function calculateTypeEffectiveness(types) {
     });
   });
 
-  // Classement selon les nouveaux multiplicateurs
   Object.entries(multipliers).forEach(([type, multiplier]) => {
     if (multiplier === 4) {
       effectiveness.x4.push(type);
@@ -198,19 +194,16 @@ function calculateTypeEffectiveness(types) {
   return effectiveness;
 }
 
-// Fonction pour formater le nom d'un type
 function formatTypeName(type) {
   return type.charAt(0).toUpperCase() + type.slice(1);
 }
 
-// Fonction pour créer le contenu de la popup
 function createTypePopupContent(types) {
   const effectiveness = calculateTypeEffectiveness(types);
   
   let content = '<div class="type-popup">';
   content += '<button class="popup-close">&times;</button>';
   
-  // Double faiblesses (x4)
   if (effectiveness.x4.length > 0) {
     content += '<div class="popup-section">';
     content += '<h4>Very Weak (×4)</h4>';
@@ -225,7 +218,6 @@ function createTypePopupContent(types) {
     content += '</div></div>';
   }
   
-  // Faiblesses simples (x2)
   if (effectiveness.x2.length > 0) {
     content += '<div class="popup-section">';
     content += '<h4>Weak (×2)</h4>';
@@ -240,7 +232,6 @@ function createTypePopupContent(types) {
     content += '</div></div>';
   }
   
-  // Résistances simples (x0.5)
   if (effectiveness.x05.length > 0) {
     content += '<div class="popup-section">';
     content += '<h4>Resist (×0.5)</h4>';
@@ -255,7 +246,6 @@ function createTypePopupContent(types) {
     content += '</div></div>';
   }
   
-  // Doubles résistances (x0.25)
   if (effectiveness.x025.length > 0) {
     content += '<div class="popup-section">';
     content += '<h4>Strongly Resist (×0.25)</h4>';
@@ -270,7 +260,6 @@ function createTypePopupContent(types) {
     content += '</div></div>';
   }
   
-  // Immunités (x0)
   if (effectiveness.x0.length > 0) {
     content += '<div class="popup-section">';
     content += '<h4>Immune (×0)</h4>';
@@ -289,7 +278,6 @@ function createTypePopupContent(types) {
   return content;
 }
 
-// Fonction pour fermer la popup
 function closePopup() {
     const popup = document.querySelector('.type-popup');
     const overlay = document.querySelector('.popup-overlay');
@@ -297,34 +285,27 @@ function closePopup() {
     if (overlay) overlay.remove();
 }
 
-// Fonction pour initialiser les popups
 function initTypeTooltips() {
-    // Sélectionner tous les conteneurs de types
     const typeContainers = document.querySelectorAll('.pokemon-types');
     
     typeContainers.forEach(container => {
         container.addEventListener('click', () => {
-            // Récupérer les types du Pokémon
             const types = Array.from(container.querySelectorAll('img')).map(img => {
                 const src = img.src;
                 return src.substring(src.lastIndexOf('/') + 1, src.lastIndexOf('.'));
             });
 
-            // Créer l'overlay
             const overlay = document.createElement('div');
             overlay.className = 'popup-overlay';
             document.body.appendChild(overlay);
 
-            // Créer le contenu de la popup
             const popupContent = createTypePopupContent(types);
             document.body.insertAdjacentHTML('beforeend', popupContent);
 
-            // Ajouter l'événement de fermeture
             const closeButton = document.querySelector('.popup-close');
             closeButton.addEventListener('click', closePopup);
             overlay.addEventListener('click', closePopup);
 
-            // Empêcher la propagation du clic sur la popup
             const popup = document.querySelector('.type-popup');
             popup.addEventListener('click', (e) => e.stopPropagation());
         });

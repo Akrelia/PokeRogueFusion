@@ -18,7 +18,6 @@ function loadSavedLanguage() {
   const savedLanguage = localStorage.getItem("selectedLanguage");
   if (savedLanguage) {
     selectedLanguage = savedLanguage;
-    // Mettre à jour le sélecteur de langue dans l'interface
     const languageSelect = document.querySelector(".language-selector select");
     languageSelect.value = savedLanguage;
   }
@@ -32,7 +31,6 @@ function updateWelcomeMessage() {
 
   if (!pokemonA.classList.contains("visible") && !pokemonB.classList.contains("visible") && !pokemonFused.classList.contains("visible")) {
     welcomeDiv.classList.add("visible");
-    // Ajout de la mise à jour du contenu
     const currentTranslations = translations[selectedLanguage];
     welcomeDiv.querySelector("h1").innerHTML = `<b>${currentTranslations.welcomeTitle}</b>`;
     welcomeDiv.querySelector("p").innerHTML = `${currentTranslations.welcomeText}<br>${currentTranslations.welcomeOrText}`;
@@ -66,39 +64,29 @@ function changeLanguage() {
 function updateUITranslations() {
   const currentTranslations = translations[selectedLanguage];
 
-  // Site title
   document.querySelector(".site-name").textContent = currentTranslations.siteTitle;
 
-  // Search placeholders
   document.getElementById("searchA").placeholder = currentTranslations.searchPlaceholderA;
   document.getElementById("searchB").placeholder = currentTranslations.searchPlaceholderB;
 
-  // Welcome message
   const welcomeDiv = document.getElementById("welcome-message");
   welcomeDiv.querySelector("h1").innerHTML = `<b>${currentTranslations.welcomeTitle}</b>`;
   welcomeDiv.querySelector("p").innerHTML = `${currentTranslations.welcomeText}<br>${currentTranslations.welcomeOrText}`;
 
-  // Top fusions
   document.querySelector(".top-fusions-container h2").textContent = currentTranslations.topFusionsTitle;
 
-  // Pokemon labels
   document.querySelector("#pokemonA .pokemon-label").textContent = currentTranslations.pokemonLabelA;
   document.querySelector("#pokemonB .pokemon-label").textContent = currentTranslations.pokemonLabelB;
   document.querySelector("#pokemonFused .pokemon-label").textContent = currentTranslations.pokemonLabelFused;
 
-  // Fuse button
   const fuseButton = document.getElementById("fuse-button");
   fuseButton.childNodes[0].textContent = currentTranslations.fuseButtonText;
 
-  // Footer
   const footerSections = document.querySelectorAll(".footer-section");
-  // About section
   footerSections[0].querySelector("h3").textContent = currentTranslations.footerAboutTitle;
   footerSections[0].querySelector("p").textContent = currentTranslations.footerAboutText;
-  // Links section
   footerSections[1].querySelector("h3").textContent = currentTranslations.footerLinksTitle;
   footerSections[1].querySelector("a").textContent = currentTranslations.footerContactLink;
-  // Credits section
   footerSections[2].querySelector("h3").textContent = currentTranslations.footerCreditsTitle;
   footerSections[2].querySelector("p").textContent = currentTranslations.footerCreditsText;
   // Copyright
@@ -112,7 +100,6 @@ function searchPokemon(pokemonId) {
     fetch(`https://pokeapi.crabdance.com/search/${selectedLanguage}/${searchInput}`)
       .then((response) => response.json())
       .then((data) => {
-        // Affichage des suggestions sous la textbox
         displaySuggestions(pokemonId, data);
       })
       .catch((error) => {
@@ -149,7 +136,6 @@ function clearSuggestions(pokemonId) {
   suggestionsDiv.innerHTML = "";
 }
 
-// Fonction appelée lorsque l'utilisateur clique sur une suggestion
 async function getPokemonSprite(pokemonId) {
   const showdownUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${pokemonId}.gif`;
   const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
@@ -205,7 +191,6 @@ function selectPokemon(pokemonDivID, pokemonID) {
       updateFusionSymbols();
       updateWelcomeMessage();
 
-      // Si les deux Pokémon sont chargés, déclencher la fusion
       if (cachePokemons["A"] && cachePokemons["B"]) {
         fuseClick();
       }
@@ -239,10 +224,8 @@ function updateFusionSymbols() {
   const plusSymbol = document.querySelector(".fusion-symbol:nth-child(2)");
   const equalsSymbol = document.querySelector(".fusion-symbol:nth-child(4)");
 
-  // Afficher le + si A et B sont visibles
   plusSymbol.style.display = cachePokemons["A"] && cachePokemons["B"] ? "flex" : "none";
 
-  // Afficher le = si la fusion est visible
   equalsSymbol.style.display = document.getElementById("pokemonFused").classList.contains("visible") ? "flex" : "none";
 }
 
@@ -273,7 +256,6 @@ function fuseClick() {
   const pokemonFusedAbilitiesDiv = document.getElementById("pokemonFused-abilities");
   const pokemonFusedHiddenAbilityDiv = document.getElementById("pokemonFused-hidden-ability");
 
-  // Afficher les informations du Pokémon fusionné
   pokemonFusedNameDiv.innerHTML = fusion.name_en;
   pokemonFusedStatsDiv.innerHTML = renderStats(fusion.stats);
   pokemonFusedTypesDiv.innerHTML = renderTypes(fusion.types);
@@ -288,18 +270,14 @@ function fuseClick() {
   );
   pokemonFusedHiddenAbilityDiv.innerHTML = renderHiddenAbility(fusion.passive, "Fused");
 
-  // Sélectionner automatiquement l'ability du Pokémon fusionné
   toggleAbilityDescription(0, "Fused");
 
-  // Sélectionner automatiquement l'ability cachée du Pokémon fusionné
   if (fusion.passive) {
     toggleHiddenAbilityDescription(fusion.passive.name, "Fused");
   }
 
-  // Utiliser l'image du Pokémon A avec la couleur du Pokémon B
   const color = getColorFromString(cachePokemons["B"].color);
 
-  // Calculer l'angle de rotation de la teinte en fonction de la couleur
   let hueRotation = 0;
   switch (cachePokemons["B"].color.toLowerCase()) {
     case "red":
@@ -342,7 +320,6 @@ function fuseClick() {
     `;
   });
 
-  // Afficher la carte
   pokemonFusedCard.classList.add("visible");
   updateFusionSymbols();
 
@@ -355,7 +332,6 @@ function fusePokemon(pokemonA, pokemonB) {
   const nameProperty = `name_${selectedLanguage}`;
   const fusedAbility = pokemonA.abilities[selectedAbilityIndices["A"]][nameProperty] || pokemonA.abilities[selectedAbilityIndices["A"]].name;
 
-  // Fusionner les types en évitant les doublons
   const fusedTypes = [];
   const typeA = pokemonA.types[0];
   const typeB = pokemonB.types.length > 1 ? pokemonB.types[1] : pokemonB.types[0];
@@ -366,7 +342,6 @@ function fusePokemon(pokemonA, pokemonB) {
     fusedTypes.push(typeA, typeB);
   }
 
-  // Fusionner les stats en prenant la moyenne
   const fusedStats = pokemonA.stats.map((statA, index) => {
     const statB = pokemonB.stats[index];
     const averageStat = Math.round((statA.base_stat + statB.base_stat) / 2);
@@ -376,7 +351,6 @@ function fusePokemon(pokemonA, pokemonB) {
     };
   });
 
-  // Créer le Pokémon fusionné
   const fusedPokemon = {
     id: `${pokemonA.id}-${pokemonB.id}`,
     name_en: getFusedSpeciesName(pokemonA[nameProperty] || pokemonA.name_en, pokemonB[nameProperty] || pokemonB.name_en),
@@ -389,15 +363,13 @@ function fusePokemon(pokemonA, pokemonB) {
   return fusedPokemon;
 }
 
-// Fonction pour afficher les stats
 function renderStats(stats) {
   return stats
     .map((stat) => {
       const statName = stat.stat.replace("-", " ");
       const statClass = stat.stat.replace("-", "-");
-      const width = (stat.base_stat / 255) * 100; // 255 est la stat maximale possible
+      const width = (stat.base_stat / 255) * 100; 
 
-      // Raccourcir les noms des stats
       let shortName = statName;
       switch (statName.toLowerCase()) {
         case "hp":
@@ -420,15 +392,14 @@ function renderStats(stats) {
           break;
       }
 
-      // Déterminer la couleur en fonction de la valeur
       let statColor;
-      if (stat.base_stat <= 30) statColor = "#FF0000"; // Rouge
-      else if (stat.base_stat <= 60) statColor = "#FFA500"; // Orange
-      else if (stat.base_stat <= 90) statColor = "#FFD700"; // Jaune
-      else if (stat.base_stat <= 120) statColor = "#90EE90"; // Vert clair
-      else if (stat.base_stat <= 150) statColor = "#32CD32"; // Vert
-      else if (stat.base_stat <= 180) statColor = "#006400"; // Vert foncé
-      else statColor = "#19b3da"; // Bleu
+      if (stat.base_stat <= 30) statColor = "#FF0000";
+      else if (stat.base_stat <= 60) statColor = "#FFA500";
+      else if (stat.base_stat <= 90) statColor = "#FFD700";
+      else if (stat.base_stat <= 120) statColor = "#90EE90";
+      else if (stat.base_stat <= 150) statColor = "#32CD32";
+      else if (stat.base_stat <= 180) statColor = "#006400";
+      else statColor = "#19b3da";
 
       return `
       <div class="stat-bar stat-${statClass}">
@@ -457,7 +428,6 @@ function renderTypes(types) {
     .join("");
 }
 
-// Fonction pour formater le nom d'une capacité
 function formatAbilityName(name) {
   return name
     .split("-")
@@ -465,13 +435,11 @@ function formatAbilityName(name) {
     .join(" ");
 }
 
-// Fonction pour formater la description d'une capacité
 function formatAbilityDescription(description) {
   return description.replace(/\r?\n/g, " ");
   //return description.split("\n")[0]; // Using short-description now
 }
 
-// Fonction pour afficher les abilities
 function renderAbilities(abilities, pokemonId) {
   return `
     <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
@@ -517,14 +485,11 @@ function renderAbilities(abilities, pokemonId) {
   `;
 }
 
-// Fonction pour basculer l'affichage de la description d'une capacité
 function toggleAbilityDescription(selectedIndex, pokemonId) {
-  // Récupérer tous les boutons et descriptions pour ce Pokémon spécifique
   const card = document.getElementById(`pokemon${pokemonId}`);
   const buttons = card.querySelectorAll(".ability-button");
   const descriptions = card.querySelectorAll(".ability-description");
 
-  // Désélectionner tous les boutons et cacher toutes les descriptions
   buttons.forEach((button, index) => {
     if (index === selectedIndex) {
       button.style.backgroundColor = "#6b7280";
@@ -537,11 +502,9 @@ function toggleAbilityDescription(selectedIndex, pokemonId) {
     description.style.display = index === selectedIndex ? "block" : "none";
   });
 
-  // Mettre à jour l'index de la capacité sélectionnée pour ce Pokémon
   selectedAbilityIndices[pokemonId] = selectedIndex;
 }
 
-// Fonction pour afficher l'ability cachée
 function renderHiddenAbility(hiddenAbility, pokemonId) {
   return `
     <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
@@ -576,7 +539,6 @@ function renderHiddenAbility(hiddenAbility, pokemonId) {
   `;
 }
 
-// Fonction pour basculer l'affichage de la description de l'ability cachée
 function toggleHiddenAbilityDescription(abilityName, pokemonId) {
   const button = document.querySelector(`button[onclick="toggleHiddenAbilityDescription('${abilityName}', '${pokemonId}')"]`);
   const description = document.getElementById(`hidden-ability-description-${pokemonId}`);
@@ -591,7 +553,6 @@ function toggleHiddenAbilityDescription(abilityName, pokemonId) {
 }
 
 function getFusedSpeciesName(nameA, nameB) {
-  // Prendre la première moitié du nom du premier Pokémon et la deuxième moitié du second
   const halfLengthA = Math.floor(nameA.length / 2);
   const halfLengthB = Math.floor(nameB.length / 2);
 
@@ -602,19 +563,16 @@ function getFusedSpeciesName(nameA, nameB) {
 }
 
 function swapPokemons() {
-  // Échanger les valeurs des champs de recherche
   const searchA = document.getElementById("searchA");
   const searchB = document.getElementById("searchB");
   const tempValue = searchA.value;
   searchA.value = searchB.value;
   searchB.value = tempValue;
 
-  // Échanger les Pokémon dans le cache
   const tempPokemon = cachePokemons["A"];
   cachePokemons["A"] = cachePokemons["B"];
   cachePokemons["B"] = tempPokemon;
 
-  // Mettre à jour l'affichage des cartes
   if (cachePokemons["A"]) {
     selectPokemon("A", cachePokemons["A"].id);
   } else {
@@ -627,13 +585,11 @@ function swapPokemons() {
     document.getElementById("pokemonB").classList.remove("visible");
   }
 
-  // Rafraîchir la fusion si elle existe
   const pokemonFusedCard = document.getElementById("pokemonFused");
   if (pokemonFusedCard.classList.contains("visible")) {
    // fuseClick();
   }
 
-  // Mettre à jour le bouton de fusion
   updateFuseButton();
 }
 
@@ -651,7 +607,6 @@ async function displayTopFusions(fusions) {
   const grid = document.getElementById("top-fusions-grid");
   grid.innerHTML = "";
 
-  // Créer tous les éléments dans l'ordre avec leurs sprites
   const fusionElements = await Promise.all(
     fusions.map(async (fusion, index) => {
       const spriteUrlA = await getPokemonSprite(fusion.PokemonA);
@@ -681,6 +636,5 @@ async function displayTopFusions(fusions) {
     })
   );
 
-  // Ajouter tous les éléments d'un coup dans l'ordre
   grid.append(...fusionElements);
 }
