@@ -329,7 +329,7 @@ function fuseClick() {
 
 function fusePokemon(pokemonA, pokemonB) {
   const nameProperty = `name_${selectedLanguage}`;
-  const fusedAbility = pokemonA.abilities[selectedAbilityIndices["A"]][nameProperty] || pokemonA.abilities[selectedAbilityIndices["A"]].name;
+  const fusedAbility = pokemonB.abilities[selectedAbilityIndices["B"]][nameProperty] || pokemonB.abilities[selectedAbilityIndices["B"]].name;
 
   const fusedTypes = [];
   const typeA = pokemonA.types[0];
@@ -356,7 +356,7 @@ function fusePokemon(pokemonA, pokemonB) {
     ability: fusedAbility,
     types: fusedTypes,
     stats: fusedStats,
-    passive: pokemonB.passive,
+    passive: pokemonA.passive,
   };
 
   return fusedPokemon;
