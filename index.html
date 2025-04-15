@@ -1,82 +1,82 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokérogue Fusion Tool</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body class="bg-gray-700">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/png" href="./images/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="./images/favicon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png" />
+  </head>
+  <body class="bg-gray-700">
     <nav>
-        <a href="https://pokerogue.net" target="_blank" class="logo-link">
-            <img src="images/logo.png" alt="Logo">
-        </a>
-        <span class="site-name">Pokérogue Fusion Tool</span>
-        <div class="language-selector">
-            <select onchange="changeLanguage()">
-                <option value="en">🇬🇧 English</option>
-                <option value="fr">🇫🇷 Français</option>
-                <option value="de">🇩🇪 Deutsch</option>
-                <option value="jp">🇯🇵 日本語</option>
-            </select>
-        </div>
+      <a href="https://pokerogue.net" target="_blank" class="logo-link">
+        <img src="images/logo.png" alt="Logo" />
+      </a>
+      <span class="site-name">Pokérogue Fusion Tool</span>
+      <div class="language-selector">
+        <select onchange="changeLanguage()">
+          <option value="en">🇬🇧 English</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="jp">🇯🇵 日本語</option>
+        </select>
+      </div>
     </nav>
     <div class="search-container">
-        <div class="search-box">
-            <input type="text" id="searchA" placeholder="Select the first Pokémon ..." oninput="searchPokemon('A')" autocomplete="off">
-            <div id="pokemonA-suggestions" class="suggestions"></div>
-        </div>
-        <button class="swap-button" onclick="swapPokemons()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/>
-            </svg>
-        </button>
-        <div class="search-box">
-            <input type="text" id="searchB" placeholder="Select the second Pokémon ..." oninput="searchPokemon('B')" autocomplete="off">
-            <div id="pokemonB-suggestions" class="suggestions"></div>
-        </div>
-        <div class="fuse-button-container">
-            <button id="fuse-button" class="fuse-button" onclick="fuseClick()" disabled>
-                Fusion<img src="images/dna.png" alt="DNA" style="width: 25px; height: 25px; margin-left: 5px; vertical-align: middle;">
-            </button>
-        </div>
+      <div class="search-box">
+        <input type="text" id="searchA" placeholder="Select the first Pokémon ..." oninput="searchPokemon('A')" autocomplete="off" />
+        <div id="pokemonA-suggestions" class="suggestions"></div>
+      </div>
+      <button class="swap-button" onclick="swapPokemons()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16" />
+        </svg>
+      </button>
+      <div class="search-box">
+        <input type="text" id="searchB" placeholder="Select the second Pokémon ..." oninput="searchPokemon('B')" autocomplete="off" />
+        <div id="pokemonB-suggestions" class="suggestions"></div>
+      </div>
+      <div class="fuse-button-container">
+        <button id="fuse-button" class="fuse-button" onclick="fuseClick()" disabled>Fusion<img src="images/dna.png" alt="DNA" style="width: 25px; height: 25px; margin-left: 5px; vertical-align: middle" /></button>
+      </div>
     </div>
     <div id="welcome-message" class="welcome-container">
-        <h1>Welcome <b>to PokéRogue Fusion Tool</b></h1>
-        <p>Select two Pokémon above to display their fusion!
-        <br>Or click one of the most popular fusion to check it out !</p>
-        <img src="images/pokeball.png" alt="Pokeball" class="welcome-pokeball">
+      <h1>Welcome <b>to PokéRogue Fusion Tool</b></h1>
+      <p>Select two Pokémon above to display their fusion! <br />Or click one of the most popular fusion to check it out !</p>
+      <img src="images/pokeball.png" alt="Pokeball" class="welcome-pokeball" />
     </div>
     <div class="pokemon-container">
-        <div class="pokemon-card" id="pokemonA">
-            <div class="pokemon-label">Pokémon A</div>
-            <div class="pokemon-name" id="pokemonA-name"></div>
-            <div class="pokemon-image" id="pokemonA-image"></div>
-            <div class="pokemon-types" id="pokemonA-types"></div>
-            <div class="pokemon-stats" id="pokemonA-stats"></div>
-            <div class="pokemon-abilities" id="pokemonA-abilities"></div>
-            <div class="pokemon-hidden-ability" id="pokemonA-hidden-ability"></div>
-        </div>
-        <div class="fusion-symbol">+</div>
-        <div class="pokemon-card" id="pokemonB">
-            <div class="pokemon-label">Pokémon B</div>
-            <div class="pokemon-name" id="pokemonB-name"></div>
-            <div class="pokemon-image" id="pokemonB-image"></div>
-            <div class="pokemon-types" id="pokemonB-types"></div>
-            <div class="pokemon-stats" id="pokemonB-stats"></div>
-            <div class="pokemon-abilities" id="pokemonB-abilities"></div>
-            <div class="pokemon-hidden-ability" id="pokemonB-hidden-ability"></div>
-        </div>
-        <div class="fusion-symbol">=</div>
-        <div class="pokemon-card" id="pokemonFused">
-            <div class="pokemon-label">Fusion</div>
-            <div class="pokemon-name" id="pokemonFused-name"></div>
-            <div class="pokemon-image" id="pokemonFused-image"></div>
-            <div class="pokemon-types" id="pokemonFused-types"></div>
-            <div class="pokemon-stats" id="pokemonFused-stats"></div>
-            <div class="pokemon-abilities" id="pokemonFused-abilities"></div>
-            <div class="pokemon-hidden-ability" id="pokemonFused-hidden-ability"></div>
-        </div>
+      <div class="pokemon-card" id="pokemonA">
+        <div class="pokemon-label">Pokémon A</div>
+        <div class="pokemon-name" id="pokemonA-name"></div>
+        <div class="pokemon-image" id="pokemonA-image"></div>
+        <div class="pokemon-types" id="pokemonA-types"></div>
+        <div class="pokemon-stats" id="pokemonA-stats"></div>
+        <div class="pokemon-abilities" id="pokemonA-abilities"></div>
+        <div class="pokemon-hidden-ability" id="pokemonA-hidden-ability"></div>
+      </div>
+      <div class="fusion-symbol">+</div>
+      <div class="pokemon-card" id="pokemonB">
+        <div class="pokemon-label">Pokémon B</div>
+        <div class="pokemon-name" id="pokemonB-name"></div>
+        <div class="pokemon-image" id="pokemonB-image"></div>
+        <div class="pokemon-types" id="pokemonB-types"></div>
+        <div class="pokemon-stats" id="pokemonB-stats"></div>
+        <div class="pokemon-abilities" id="pokemonB-abilities"></div>
+        <div class="pokemon-hidden-ability" id="pokemonB-hidden-ability"></div>
+      </div>
+      <div class="fusion-symbol">=</div>
+      <div class="pokemon-card" id="pokemonFused">
+        <div class="pokemon-label">Fusion</div>
+        <div class="pokemon-name" id="pokemonFused-name"></div>
+        <div class="pokemon-image" id="pokemonFused-image"></div>
+        <div class="pokemon-types" id="pokemonFused-types"></div>
+        <div class="pokemon-stats" id="pokemonFused-stats"></div>
+        <div class="pokemon-abilities" id="pokemonFused-abilities"></div>
+        <div class="pokemon-hidden-ability" id="pokemonFused-hidden-ability"></div>
+      </div>
     </div>
     <div class="top-fusions-container">
       <h2>Top 20 Fusions</h2>
@@ -88,12 +88,12 @@
       <div class="footer-content">
         <div class="footer-section">
           <h3>About</h3>
-          <p>PokéRogue Fusion is a tool to preview a fusion of two Pokémon in PokéRogue. This tool is not affiliated with PokéRogue. </p>
+          <p>PokéRogue Fusion is a tool to preview a fusion of two Pokémon in PokéRogue. This tool is not affiliated with PokéRogue.</p>
         </div>
         <div class="footer-section">
           <h3>Links</h3>
           <ul>
-              <li><a href="mailto:builtbyakima@gmail.com">Contact</a></li>
+            <li><a href="mailto:builtbyakima@gmail.com">Contact</a></li>
           </ul>
         </div>
         <div class="footer-section">
@@ -110,10 +110,10 @@
     <script src="scripts/types.js"></script>
     <script src="scripts/main.js"></script>
     <script>
-        // Initialiser les tooltips après le chargement complet de la page
-        window.addEventListener('load', function() {
-            initTypeTooltips();
-        });
+      // Initialiser les tooltips après le chargement complet de la page
+      window.addEventListener("load", function () {
+        initTypeTooltips();
+      });
     </script>
-</body>
+  </body>
 </html>
