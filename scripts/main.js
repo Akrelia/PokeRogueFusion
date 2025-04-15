@@ -262,7 +262,7 @@ function fuseClick() {
     [
       {
         name: fusion.ability,
-        description: cachePokemons["A"].abilities[selectedAbilityIndices["A"]].description,
+        description: cachePokemons["B"].abilities[selectedAbilityIndices["B"]].description,
       },
     ],
     "Fused"
