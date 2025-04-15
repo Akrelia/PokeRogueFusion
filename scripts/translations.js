@@ -59,7 +59,7 @@ const translations = {
     pokemonLabelFused: "Fusion",
     fuseButtonText: "Fusion"
   },
-  jp: {
+  ja: {
     siteTitle: "ポケローグ フュージョン ツール",
     searchPlaceholderA: "最初のポケモンを選択...",
     searchPlaceholderB: "2番目のポケモンを選択...",
