@@ -36,6 +36,33 @@ body {
   width: auto;
 }
 
+.link-button{
+  background-color: #456ca1;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  align-items: center;
+  display: flex;;
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 500;
+  font-family: "Quicksand", sans-serif;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: background-color 0.2s;
+}
+
+.link-button img{
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
+}
+
+.link-button:hover{
+  background-color: #52aaa6;
+}
+
 .language-selector {
   background-color: #374151;
   color: white;
